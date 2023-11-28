@@ -12,6 +12,7 @@ use Symfony\Component\Mime\MessageConverter;
 class SendsayTransport extends AbstractTransport
 {
     const BASE_URL = 'https://api.sendsay.ru/general/api/v100/json/';
+
     const GROUP = 'personal';
 
     public function __toString(): string
