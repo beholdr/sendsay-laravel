@@ -1,0 +1,10 @@
+name: sendsay-laravel
+
+services:
+  php:
+    image: webdevops/php:8.1-alpine
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    working_dir: /app
+    volumes:
+      - .:/app
