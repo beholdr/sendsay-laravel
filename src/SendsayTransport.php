@@ -12,9 +12,11 @@ use Symfony\Component\Mime\MessageConverter;
 
 class SendsayTransport extends AbstractTransport
 {
-    const BASE_URL = 'https://api.sendsay.ru/general/api/v100/json/';
+    public const UNSUBSCRIBE_LINK = '#UNSUBSCRIBE_LINK#';
 
-    const GROUP = 'personal';
+    protected const BASE_URL = 'https://api.sendsay.ru/general/api/v100/json/';
+
+    protected const GROUP = 'personal';
 
     public function __toString(): string
     {
@@ -99,6 +101,6 @@ class SendsayTransport extends AbstractTransport
 
     protected function processLink(string $message): string
     {
-        return Str::replace('#UNSUBSCRIBE_LINK#', '[% param.url_unsub %]', $message);
+        return Str::replace(self::UNSUBSCRIBE_LINK, '[% param.url_unsub %]', $message);
     }
 }
