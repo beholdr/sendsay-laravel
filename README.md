@@ -62,7 +62,7 @@ php artisan vendor:publish --tag=laravel-mail
 ...
 
 @if ($unsubscribe)
-<a style="font-size: 12px" href="#UNSUBSCRIBE_LINK#">{{ __('Unsubscribe') }}</a>
+<a style="font-size: 12px" href="{{ $unsubscribe }}">{{ __('Unsubscribe') }}</a>
 @endif
 ```
 
@@ -74,14 +74,14 @@ php artisan vendor:publish --tag=laravel-mail
 ...
 
 @if ($unsubscribe)
-{{ __('Unsubscribe') }}: #UNSUBSCRIBE_LINK#
+{{ __('Unsubscribe') }}: {{ $unsubscribe }}
 @endif
 ```
 
 4. Pass `unsubscribe` prop to `x-mail::message` component in letter template:
 
 ```blade
-<x-mail::message :unsubscribe="$mailer === 'sendsay'">
+<x-mail::message :unsubscribe="$mailer === 'sendsay' ? '#UNSUBSCRIBE_LINK#' : false">
 ...
 </x-mail::message>
 ```
