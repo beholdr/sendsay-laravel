@@ -2,6 +2,7 @@
 
 namespace Beholdr\Sendsay;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Mailer\SentMessage;
@@ -29,13 +30,20 @@ class SendsayTransport extends AbstractTransport
 
     protected function makeRequest(array $payload): void
     {
+        if (! $account = config('sendsay.account')) {
+            throw new Exception('Please provide sendsay account!');
+        }
+        if (! $key = config('sendsay.key')) {
+            throw new Exception('Please provide sendsay api key!');
+        }
+
         $request = Http::acceptJson()
             ->withOptions($this->getOptions())
-            ->withToken('apikey='.config('sendsay.key'), 'sendsay')
+            ->withToken('apikey='.$key, 'sendsay')
             ->baseUrl(self::BASE_URL)
             ->throw();
 
-        $request->post(config('sendsay.account'), $payload);
+        $request->post($account, $payload);
     }
 
     protected function getOptions(): array
