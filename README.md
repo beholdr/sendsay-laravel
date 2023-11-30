@@ -12,20 +12,20 @@ Do you like **Sendsay Laravel**? Please support me via [Boosty](https://boosty.t
 
 You can install the package via composer:
 
-``` bash
+```bash
 composer require beholdr/sendsay-laravel
 ```
 
 You need to set `.env` variables:
 
-``` bash
+```bash
 MAIL_SENDSAY_ACCOUNT="root_account_name"
 MAIL_SENDSAY_KEY="YOUR_API_KEY"
 ```
 
 And add mailer transport in `config/mail.php`:
 
-``` php
+```php
 'mailers' => [
     ...
     'sendsay' => [
@@ -50,33 +50,53 @@ For example, if you are using markdown mailables:
 
 1. Publish laravel-mail components:
 
-``` bash
+```bash
 php artisan vendor:publish --tag=laravel-mail
 ```
 
 2. Add to html footer template code:
 
-``` html
+```blade
+@aware(['unsubscribe'])
+
+...
+
+@if ($unsubscribe)
 <a style="font-size: 12px" href="#UNSUBSCRIBE_LINK#">{{ __('Unsubscribe') }}</a>
+@endif
 ```
 
 3. Add to text footer template code:
 
-```
+```blade
+@aware(['unsubscribe'])
+
+...
+
+@if ($unsubscribe)
 {{ __('Unsubscribe') }}: #UNSUBSCRIBE_LINK#
+@endif
+```
+
+4. Pass `unsubscribe` prop to `x-mail::message` component in letter template:
+
+```blade
+<x-mail::message :unsubscribe="$mailer === 'sendsay'">
+...
+</x-mail::message>
 ```
 
 ### Proxy
 
 If you set `APP_LOCAL_PROXY` variable, your requests to Sendsay.ru will be proxified via given proxy. Example for proxy inside Docker:
 
-``` bash
+```bash
 APP_LOCAL_PROXY="socks5://host.docker.internal:8123"
 ```
 
 ## Testing
 
-``` bash
+```bash
 composer test
 ```
 
